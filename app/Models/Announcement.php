@@ -9,24 +9,33 @@ class Announcement extends Model
 {
     protected $table = 'announcements';
 
-    protected $primaryKey = 'AnnouncementID';
+    protected $primaryKey = 'announcement_id';
 
-    public $timestamps = false;
+    public const AUDIENCE_ALL = 'All';
+    public const AUDIENCE_STUDENTS = 'Students';
+    public const AUDIENCE_FACULTY = 'Faculty';
 
     protected $fillable = [
-        'AuthorID',
-        'Title',
-        'Content',
-        'DatePosted',
-        'TargetAudience',
+        'title',
+        'content',
+        'date_posted',
+        'target_audience',
+        'author_id',
     ];
 
     protected $casts = [
-        'DatePosted' => 'date',
+        'date_posted' => 'datetime',
     ];
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'AuthorID', 'UserID');
+        return $this->belongsTo(User::class, 'author_id', 'user_id');
+    }
+
+    public function scopeVisibleTo($query, string $role)
+    {
+        $audience = $role === User::ROLE_STUDENT ? self::AUDIENCE_STUDENTS : self::AUDIENCE_FACULTY;
+
+        return $query->whereIn('target_audience', [self::AUDIENCE_ALL, $audience]);
     }
 }

@@ -10,32 +10,36 @@ class Subject extends Model
 {
     protected $table = 'subjects';
 
-    protected $primaryKey = 'SubjectCode';
+    protected $primaryKey = 'subject_id';
 
     public $incrementing = false;
 
     protected $keyType = 'string';
 
-    public $timestamps = false;
-
     protected $fillable = [
-        'SubjectCode',
-        'SubjectName',
-        'Units',
-        'PrerequisiteSubject',
+        'subject_id',
+        'subject_name',
+        'units',
+        'prerequisite_subject_id',
     ];
 
     protected $casts = [
-        'Units' => 'integer',
+        'units' => 'integer',
     ];
 
-    public function classes(): HasMany
+    public function schedules(): HasMany
     {
-        return $this->hasMany(SchoolClass::class, 'SubjectCode', 'SubjectCode');
+        return $this->hasMany(Schedule::class, 'subject_id', 'subject_id');
     }
 
     public function prerequisite(): BelongsTo
     {
-        return $this->belongsTo(Subject::class, 'PrerequisiteSubject', 'SubjectCode');
+        return $this->belongsTo(Subject::class, 'prerequisite_subject_id', 'subject_id');
+    }
+
+    /** Other subjects that name this one as their prerequisite. */
+    public function dependents(): HasMany
+    {
+        return $this->hasMany(Subject::class, 'prerequisite_subject_id', 'subject_id');
     }
 }

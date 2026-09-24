@@ -9,22 +9,24 @@ class Department extends Model
 {
     protected $table = 'departments';
 
-    protected $primaryKey = 'DepartmentID';
+    protected $primaryKey = 'dept_id';
 
-    public $timestamps = false;
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'DepartmentCode',
-        'DepartmentName',
+        'dept_id',
+        'dept_name',
     ];
 
     public function programs(): HasMany
     {
-        return $this->hasMany(Program::class, 'DepartmentID', 'DepartmentID');
+        return $this->hasMany(Program::class, 'dept_id', 'dept_id');
     }
 
     public function faculty(): HasMany
     {
-        return $this->hasMany(Faculty::class, 'DepartmentID', 'DepartmentID');
+        return $this->hasMany(Faculty::class, 'dept_id', 'dept_id');
     }
 }

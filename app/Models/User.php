@@ -2,50 +2,53 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     protected $table = 'users';
 
-    protected $primaryKey = 'UserID';
-
-    public $timestamps = false;
+    protected $primaryKey = 'user_id';
 
     protected $fillable = [
-        'Username_Email',
-        'PasswordHash',
-        'Role',
-        'IsActive',
+        'username',
+        'password',
+        'role',
+        'is_active',
     ];
 
     protected $hidden = [
-        'PasswordHash',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
-        'IsActive' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
-    public function getAuthPassword()
-    {
-        return $this->PasswordHash;
-    }
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_FACULTY = 'faculty';
+    public const ROLE_STUDENT = 'student';
 
     public function student(): HasOne
     {
-        return $this->hasOne(Student::class, 'UserID', 'UserID');
+        return $this->hasOne(Student::class, 'user_id', 'user_id');
     }
 
     public function faculty(): HasOne
     {
-        return $this->hasOne(Faculty::class, 'UserID', 'UserID');
+        return $this->hasOne(Faculty::class, 'user_id', 'user_id');
     }
 
     public function announcements(): HasMany
     {
-        return $this->hasMany(Announcement::class, 'AuthorID', 'UserID');
+        return $this->hasMany(Announcement::class, 'author_id', 'user_id');
+    }
+
+    public function ledgerEntriesRecorded(): HasMany
+    {
+        return $this->hasMany(LedgerEntry::class, 'recorded_by_user_id', 'user_id');
     }
 }

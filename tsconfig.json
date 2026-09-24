@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", "module": "ESNext", "moduleResolution": "Bundler", "strict": true, "jsx": "preserve",
+    "skipLibCheck": true, "isolatedModules": true, "baseUrl": ".", "paths": { "@/*": ["./resources/js/*"] }
+  },
+  "include": ["resources/js/**/*.ts", "resources/js/**/*.vue"]
+}

@@ -8,31 +8,44 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Faculty extends Model
 {
+    public const STATUS_TEACHING = 'Teaching';
+    public const STATUS_ON_LEAVE = 'On leave';
+    public const STATUS_INACTIVE = 'Inactive';
+
     protected $table = 'faculty';
 
-    protected $primaryKey = 'FacultyID';
+    protected $primaryKey = 'faculty_id';
 
-    public $timestamps = false;
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'UserID',
-        'DepartmentID',
-        'FirstName',
-        'LastName',
+        'faculty_id',
+        'first_name',
+        'last_name',
+        'user_id',
+        'dept_id',
+        'status',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'UserID', 'UserID');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class, 'DepartmentID', 'DepartmentID');
+        return $this->belongsTo(Department::class, 'dept_id', 'dept_id');
     }
 
-    public function classes(): HasMany
+    public function schedules(): HasMany
     {
-        return $this->hasMany(SchoolClass::class, 'FacultyID', 'FacultyID');
+        return $this->hasMany(Schedule::class, 'faculty_id', 'faculty_id');
+    }
+
+    public function fullName(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }

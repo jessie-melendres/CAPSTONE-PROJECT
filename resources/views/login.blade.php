@@ -23,7 +23,7 @@
                         <button class="access-tab" type="button" role="tab" aria-selected="false" data-access="staff">Faculty / Administrator</button>
                     </div>
                     <input id="access_type" name="access_type" type="hidden" value="student">
-                    <div id="studentFields"><label for="student_id">Student ID Number</label><input id="student_id" name="student_id" type="text" placeholder="e.g. 2026-0001"></div>
+                    <div id="studentFields"><label for="student_id">Student ID Number</label><input id="student_id" name="student_id" type="text" placeholder="e.g. 2026-0001"><label for="student_password">Password</label><input id="student_password" name="student_password" type="password"></div>
                     <div id="staffFields" hidden><label for="staff_email">Username or staff email</label><input id="staff_email" name="staff_email" type="text"><label for="staff_password">Password</label><input id="staff_password" name="staff_password" type="password"></div>
                     <button class="primary-btn login-submit" type="submit">Continue to Dashboard</button>
                 </form>

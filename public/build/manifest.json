@@ -1,0 +1,11 @@
+{
+  "resources/js/app.ts": {
+    "file": "assets/app-CterCyK4.js",
+    "name": "app",
+    "src": "resources/js/app.ts",
+    "isEntry": true,
+    "css": [
+      "assets/app-BpjsDSRT.css"
+    ]
+  }
+}

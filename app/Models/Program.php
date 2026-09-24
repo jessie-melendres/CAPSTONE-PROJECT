@@ -10,23 +10,25 @@ class Program extends Model
 {
     protected $table = 'programs';
 
-    protected $primaryKey = 'ProgramID';
+    protected $primaryKey = 'program_id';
 
-    public $timestamps = false;
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'DepartmentID',
-        'ProgramCode',
-        'ProgramName',
+        'program_id',
+        'program_name',
+        'dept_id',
     ];
 
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class, 'DepartmentID', 'DepartmentID');
+        return $this->belongsTo(Department::class, 'dept_id', 'dept_id');
     }
 
     public function students(): HasMany
     {
-        return $this->hasMany(Student::class, 'ProgramID', 'ProgramID');
+        return $this->hasMany(Student::class, 'program_id', 'program_id');
     }
 }

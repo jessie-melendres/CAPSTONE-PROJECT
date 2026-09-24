@@ -10,33 +10,31 @@ class Enrollment extends Model
 {
     protected $table = 'enrollments';
 
-    protected $primaryKey = 'EnrollmentID';
+    protected $primaryKey = 'enrollment_id';
 
-    public $timestamps = false;
+    public const STATUS_ENROLLED = 'Enrolled';
+    public const STATUS_DROPPED = 'Dropped';
 
     protected $fillable = [
-        'StudentID',
-        'ClassID',
-        'EnrollmentDate',
-        'Status',
-    ];
-
-    protected $casts = [
-        'EnrollmentDate' => 'date',
+        'semester',
+        'school_year',
+        'student_id',
+        'schedule_id',
+        'status',
     ];
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class, 'StudentID', 'StudentID');
+        return $this->belongsTo(Student::class, 'student_id', 'student_id');
     }
 
-    public function schoolClass(): BelongsTo
+    public function schedule(): BelongsTo
     {
-        return $this->belongsTo(SchoolClass::class, 'ClassID', 'ClassID');
+        return $this->belongsTo(Schedule::class, 'schedule_id', 'schedule_id');
     }
 
     public function grade(): HasOne
     {
-        return $this->hasOne(Grade::class, 'EnrollmentID', 'EnrollmentID');
+        return $this->hasOne(Grade::class, 'enrollment_id', 'enrollment_id');
     }
 }
