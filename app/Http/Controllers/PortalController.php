@@ -13,7 +13,7 @@ class PortalController extends Controller
 {
     public function login()
     {
-        return Inertia::render('Login');
+        return Inertia::render('Login', ['contact' => config('portal.contact')]);
     }
 
     public function authenticate(Request $request)
@@ -70,7 +70,22 @@ class PortalController extends Controller
 
     public function home()
     {
-        return view('home');
+        $announcements = Announcement::where('target_audience', Announcement::AUDIENCE_ALL)
+            ->latest('date_posted')
+            ->limit(3)
+            ->get()
+            ->map(fn (Announcement $announcement) => [
+                'id' => $announcement->announcement_id,
+                'title' => $announcement->title,
+                'content' => $announcement->content,
+                'date_posted' => $announcement->date_posted->format('M j, Y'),
+            ]);
+
+        return Inertia::render('Home', [
+            'announcements' => $announcements,
+            'contact' => config('portal.contact'),
+            'term' => config('academic.current_semester').' · '.config('academic.current_school_year'),
+        ]);
     }
 
     protected function currentUser(Request $request): User

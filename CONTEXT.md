@@ -44,6 +44,12 @@ _Avoid_: Grade (the Grade record holds the term scores; the Remark is the derive
 A student's GWA for a term: the average of the Semestral Average across every subject with a complete Grade. Shown on the student dashboard.
 _Avoid_: GWA, Semestral Average (that's per-subject)
 
+### Announcements
+
+**Announcement audience** (`All` / `Students` / `Faculty`):
+Who an Announcement is meant for. Signed-in students and faculty see `All` plus their own audience; visitors who are not signed in see only `All` announcements, on the landing page.
+_Avoid_: "public" announcement (visibility is by audience, not a separate flag)
+
 ### Status & lifecycle
 
 **Student status** (`Active` / `Inactive` / `Graduated`):
