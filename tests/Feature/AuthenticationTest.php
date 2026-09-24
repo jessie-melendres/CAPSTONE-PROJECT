@@ -27,6 +27,21 @@ class AuthenticationTest extends TestCase
         $this->assertSame('student', session('user.role'));
     }
 
+    public function test_an_inertia_login_lands_on_the_dashboard_with_a_full_page_visit(): void
+    {
+        $program = $this->makeDepartmentAndProgram();
+        $this->makeStudent($program, '2026-0001');
+
+        $response = $this->withHeaders(['X-Inertia' => 'true'])->post('/login', [
+            'access_type' => 'student',
+            'student_id' => '2026-0001',
+            'student_password' => 'Student@2026',
+        ]);
+
+        $response->assertStatus(409);
+        $response->assertHeader('X-Inertia-Location', route('student.dashboard'));
+    }
+
     public function test_a_student_cannot_log_in_with_the_wrong_password(): void
     {
         $program = $this->makeDepartmentAndProgram();

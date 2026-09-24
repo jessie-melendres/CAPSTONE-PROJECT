@@ -53,11 +53,13 @@ class PortalController extends Controller
             'username' => $user->username,
         ]);
 
-        return redirect()->route(match ($user->role) {
+        // A full-page visit: some dashboards are still Blade pages, which Inertia
+        // would otherwise render inside a modal over the login page.
+        return Inertia::location(route(match ($user->role) {
             User::ROLE_ADMIN => 'admin.dashboard',
             User::ROLE_FACULTY => 'faculty.dashboard',
             default => 'student.dashboard',
-        });
+        }));
     }
 
     public function logout(Request $request)
